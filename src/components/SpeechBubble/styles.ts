@@ -16,6 +16,7 @@ export const Content = styled.div`
     font-family: 'Special Elite', cursive;
     box-shadow: var(--box-shadow);
     color: #52565e;
+    padding-left: 1em;
     p {
 	    font-size:1rem;
 	    line-height:1rem;
