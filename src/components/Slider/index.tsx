@@ -1,8 +1,9 @@
-import React, { useCallback, useEffect, useState } from 'react'
+import React, { useCallback, useContext, useEffect, useState } from 'react'
 
 import { ArrowBackIos, ArrowForwardIos } from '@material-ui/icons';
 import { BackArrow, Container, NextArrow, Content } from './styles';
 
+import { UserContext } from '../../context/user'
 import api from '../../services/api';
 
 interface JokeProps {
@@ -16,17 +17,19 @@ type keyboardProps = {
 }
 
 export default function Index() {
+    const { state } = useContext(UserContext);
     const [jokes, setJokes] = useState<JokeProps>()
     const [slideCount, setSlideCount] = useState(1)
 
     const getJokes = useCallback(async () => {
-        const response = await api.get(`/${slideCount}`);
+        const { firstName, lastName } = state
+        const response = await api.get(`/${slideCount}?firstName=${firstName}&lastName=${lastName}`);
         if (response.data.type !== 'success') {
             ArrowRight();
             return
         }
         setJokes(response.data.value)
-    }, [slideCount])
+    }, [slideCount, state])
 
     const ArrowRight = () => {
         setSlideCount(slideCount => slideCount + 1)
